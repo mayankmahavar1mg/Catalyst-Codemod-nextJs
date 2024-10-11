@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Node.js and npm installed on your system
+- Node version 20.4.0 or later
 
 ## Setup Instructions
 
@@ -61,4 +61,4 @@
 ## Additional Notes
 
 - Make sure to review any environment-specific setup or configuration that may be required for your project.
-- Consult the Catalyst documentation for more detailed information on configuration options and advanced features.
+- Consult the Catalyst [documentation](https://catalyst.1mg.com/public_docs/) for more detailed information on configuration options and advanced features.
