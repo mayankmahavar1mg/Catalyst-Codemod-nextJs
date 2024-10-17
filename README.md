@@ -55,7 +55,7 @@
    Then start the application:
 
    ```bash
-   npm run devServe
+   npm start
    ```
 
 ## Additional Notes
