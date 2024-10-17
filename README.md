@@ -24,7 +24,7 @@
 
    Follow the prompts to complete the installation.
 
-3. **Run database migrations**
+3. **Run migrations**
 
    Execute the migration command:
 
