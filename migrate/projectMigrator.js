@@ -11,10 +11,11 @@ async function findAndCopyComponents(sourcePath, destBasePath, targetFolders) {
     if (item.isDirectory()) {
       if (targetFolders.includes(item.name.toLowerCase())) {
         const relativePath = path.relative(
-          path.join(sourcePath, ".."),
+          path.join(sourcePath, "src", ".."),
           fullSourcePath
         );
         const destPath = path.join(destBasePath, relativePath);
+
         await fs.copy(fullSourcePath, destPath, { recursive: true });
       } else {
         // Recurse into other directories
