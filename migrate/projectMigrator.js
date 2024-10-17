@@ -11,10 +11,11 @@ async function findAndCopyComponents(sourcePath, destBasePath, targetFolders) {
     if (item.isDirectory()) {
       if (targetFolders.includes(item.name.toLowerCase())) {
         const relativePath = path.relative(
-          path.join(sourcePath, ".."),
+          path.join(sourcePath, "src", ".."),
           fullSourcePath
         );
         const destPath = path.join(destBasePath, relativePath);
+
         await fs.copy(fullSourcePath, destPath, { recursive: true });
       } else {
         // Recurse into other directories
@@ -131,10 +132,9 @@ async function moveComponents(nextjsProjectPath, catalystProjectPath) {
       "assets",
       "helpers",
     ];
-    const sourceBasePath = path.join(nextjsProjectPath, "src");
     const destBasePath = path.join(catalystProjectPath, "src", "js");
 
-    await findAndCopyComponents(sourceBasePath, destBasePath, targetFolders);
+    await findAndCopyComponents(nextjsProjectPath, destBasePath, targetFolders);
     await moveAppComponents(nextjsProjectPath, catalystProjectPath);
     const jscodeshiftScriptsPath = path.join(
       process.cwd(),
