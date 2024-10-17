@@ -131,10 +131,9 @@ async function moveComponents(nextjsProjectPath, catalystProjectPath) {
       "assets",
       "helpers",
     ];
-    const sourceBasePath = path.join(nextjsProjectPath, "src");
     const destBasePath = path.join(catalystProjectPath, "src", "js");
 
-    await findAndCopyComponents(sourceBasePath, destBasePath, targetFolders);
+    await findAndCopyComponents(nextjsProjectPath, destBasePath, targetFolders);
     await moveAppComponents(nextjsProjectPath, catalystProjectPath);
     const jscodeshiftScriptsPath = path.join(
       process.cwd(),
