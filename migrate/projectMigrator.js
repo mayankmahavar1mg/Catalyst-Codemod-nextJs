@@ -32,7 +32,11 @@ async function findAndCopyComponents(sourcePath, destBasePath, targetFolders) {
 async function findPageFile(dirPath) {
   const files = await fs.readdir(dirPath);
   const pageFile = files.find(
-    (file) => file === "page.js" || file === "page.tsx"
+    (file) =>
+      file === "page.js" ||
+      file === "page.jsx" ||
+      file === "page.tsx" ||
+      file === "page.ts"
   );
   return pageFile ? path.join(dirPath, pageFile) : null;
 }
@@ -85,7 +89,12 @@ async function processDirectory(currentDir, containerDir) {
     const fullPath = path.join(currentDir, file.name);
     if (file.isDirectory()) {
       await processDirectory(fullPath, containerDir);
-    } else if (file.name === "page.js" || file.name === "page.tsx") {
+    } else if (
+      file.name === "page.js" ||
+      file.name === "page.jsx" ||
+      file.name === "page.tsx" ||
+      file.name === "page.ts"
+    ) {
       await processPageFile(currentDir, containerDir);
       break; // We've found the page file, so we can stop processing this directory
     }

@@ -1,14 +1,6 @@
 const fs = require("fs-extra");
 const path = require("path");
 
-async function findPageFile(dirPath) {
-  const files = await fs.readdir(dirPath);
-  const pageFile = files.find(
-    (file) => file === "page.js" || file === "page.tsx"
-  );
-  return pageFile ? path.join(dirPath, pageFile) : null;
-}
-
 async function extractFunctionName(filePath) {
   const content = await fs.readFile(filePath, "utf8");
 
@@ -41,7 +33,12 @@ async function generateRoutes(appDir) {
       const fullPath = path.join(currentDir, file.name);
       let routePath = path.join(
         currentPath,
-        file.name === "page.js" || file.name === "page.tsx" ? "" : file.name
+        file.name === "page.js" ||
+          file.name === "page.jsx" ||
+          file.name === "page.tsx" ||
+          file.name === "page.ts"
+          ? ""
+          : file.name
       );
 
       // Convert dynamic segments from [param] to :param
@@ -49,7 +46,12 @@ async function generateRoutes(appDir) {
 
       if (file.isDirectory()) {
         await processDirectory(fullPath, routePath);
-      } else if (file.name === "page.js" || file.name === "page.tsx") {
+      } else if (
+        file.name === "page.js" ||
+        file.name === "page.jsx" ||
+        file.name === "page.tsx" ||
+        file.name === "page.ts"
+      ) {
         const functionName = await extractFunctionName(fullPath);
         routes.push({
           path: routePath === "" ? "/" : `/${routePath}`,
