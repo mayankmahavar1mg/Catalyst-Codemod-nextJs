@@ -1,26 +1,3 @@
-// const fs = require("fs");
-// const path = require("path");
-
-// // Configuration
-// const CONFIG = {
-//   imageDir: "/Users/mayank.mahavar/1mg_web/mweb",
-//   outputFile:
-//     "/Users/mayank.mahavar/migrateNextToCatalyst/fullstack-nextjs-app-template/src/imageIndex.js",
-//   validExtensions: [".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp"],
-//   // Directories and files to ignore
-//   ignore: [
-//     "node_modules",
-//     ".git",
-//     "dist",
-//     "build",
-//     ".next",
-//     ".DS_Store",
-//     "thumbs.db",
-//     "*.test.*",
-//     "*.spec.*",
-//   ],
-// };
-
 const fs = require("fs");
 const path = require("path");
 
