@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 
 // Get command line arguments
@@ -6,14 +6,14 @@ const args = process.argv.slice(2);
 
 // Help text
 const helpText = `
-Usage: node script.js <imageDir> <outputFile>
+Usage: node imageGenerator.js <imageDir> <outputFile>
 
 Arguments:
   imageDir     Directory containing images
   outputFile   Output file path for the index
 
 Example: 
-  node script.js ./images ./src/utils/imageIndex.js
+  node imageGenerator.js ./images ./src/utils/imageIndex.js
 `;
 
 // Show help if requested
