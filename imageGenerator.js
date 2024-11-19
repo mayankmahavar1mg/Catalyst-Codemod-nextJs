@@ -122,27 +122,38 @@ function generateImageIndex() {
 
     let fileContent = `// This file is auto-generated. Do not edit manually.\n`;
     fileContent += `// Generated on ${new Date().toISOString()}\n\n`;
+    
+    // Add loadable import
+    fileContent += `import loadableComponent from "@loadable/component";\n\n`;
 
-    // Add imports
+    // Create loadable components for each image
     imageFiles.forEach(({ relativePath, identifier }) => {
       const importPath = relativePath.split(path.sep).join("/");
-      fileContent += `import ${identifier} from '${path.relative(
+      const fullImportPath = `${path.relative(
         outputDir,
         CONFIG.imageDir
-      )}/${importPath}';\n`;
+      )}/${importPath}`;
+      
+      fileContent += `export const ${identifier} = loadableComponent(() =>
+  import("${fullImportPath}")
+);\n`;
       processedImages.set(identifier, relativePath);
     });
 
-    // Create the image paths utility
-    fileContent += `\n// Utility function to get image path with optional CDN URL\n`;
-    fileContent += `const getImagePath = (path, cdnUrl) => cdnUrl ? \`\${cdnUrl}/\${path}\` : path;\n\n`;
-
-    // Export the image paths function
-    fileContent += `export const imported_image_path = (cdnUrl) => ({\n`;
-    processedImages.forEach((relativePath, identifier) => {
-      fileContent += `  ${identifier}: getImagePath(${identifier}, cdnUrl),\n`;
+    // Create a mapping object for all image components
+    fileContent += `\n// Export image components mapping\n`;
+    fileContent += `export const imageComponents = {\n`;
+    processedImages.forEach((_, identifier) => {
+      fileContent += `  ${identifier},\n`;
     });
-    fileContent += `});\n`;
+    fileContent += `};\n\n`;
+
+    // Create a utility function to get component by path
+    fileContent += `// Utility function to get image component by path\n`;
+    fileContent += `export const getImageComponent = (path) => {\n`;
+    fileContent += `  const normalizedPath = path.replace(/[^a-zA-Z0-9]/g, "_").replace(/^[0-9]/, "_$&");\n`;
+    fileContent += `  return imageComponents[normalizedPath] || null;\n`;
+    fileContent += `};\n`;
 
     fs.writeFileSync(CONFIG.outputFile, fileContent);
     console.log(`\n✅ Successfully generated index at: ${CONFIG.outputFile}`);
