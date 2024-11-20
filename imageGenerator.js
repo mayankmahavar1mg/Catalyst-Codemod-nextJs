@@ -94,7 +94,7 @@ function findImagesRecursively(dir, ignoredPaths = new Set()) {
           const relativePath = path.relative(CONFIG.imageDir, fullPath);
           results.push({
             relativePath,
-            identifier: relativePath
+            identifier: path.basename(relativePath)
               .replace(/[^a-zA-Z0-9]/g, "_")
               .replace(/^[0-9]/, "_$&"),
           });
@@ -122,37 +122,14 @@ function generateImageIndex() {
 
     let fileContent = `// This file is auto-generated. Do not edit manually.\n`;
     fileContent += `// Generated on ${new Date().toISOString()}\n\n`;
-    
-    // Add loadable import
-    fileContent += `import loadableComponent from "@loadable/component";\n\n`;
 
-    // Create loadable components for each image
-    imageFiles.forEach(({ relativePath, identifier }) => {
-      const importPath = relativePath.split(path.sep).join("/");
-      const fullImportPath = `${path.relative(
-        outputDir,
-        CONFIG.imageDir
-      )}/${importPath}`;
-      
-      fileContent += `export const ${identifier} = loadableComponent(() =>
-  import("${fullImportPath}")
-);\n`;
-      processedImages.set(identifier, relativePath);
-    });
-
-    // Create a mapping object for all image components
-    fileContent += `\n// Export image components mapping\n`;
+    // Create the image components mapping object
     fileContent += `export const imageComponents = {\n`;
-    processedImages.forEach((_, identifier) => {
-      fileContent += `  ${identifier},\n`;
+    imageFiles.forEach(({ relativePath, identifier }) => {
+      const fileName = path.basename(relativePath);
+      fileContent += `  ${identifier}: "/assets/${fileName}",\n`;
+      processedImages.set(identifier, fileName);
     });
-    fileContent += `};\n\n`;
-
-    // Create a utility function to get component by path
-    fileContent += `// Utility function to get image component by path\n`;
-    fileContent += `export const getImageComponent = (path) => {\n`;
-    fileContent += `  const normalizedPath = path.replace(/[^a-zA-Z0-9]/g, "_").replace(/^[0-9]/, "_$&");\n`;
-    fileContent += `  return imageComponents[normalizedPath] || null;\n`;
     fileContent += `};\n`;
 
     fs.writeFileSync(CONFIG.outputFile, fileContent);
