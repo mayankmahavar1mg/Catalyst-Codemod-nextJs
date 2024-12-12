@@ -6,23 +6,21 @@
 
 ## Setup Instructions
 
-1. **Install dependencies**
+1. **Clone the repository**
 
-   Run the following command in your project directory:
+   Clone the Catalyst Codemod repository:
+
+   ```bash
+   git clone https://github.com/mayankmahavar1mg/Catalyst-Codemod-nextJs.git
+   ```
+
+2. **Install dependencies**
+
+   Run the following command inside the Codemod repository:
 
    ```bash
    npm i
    ```
-
-2. **Install Catalyst**
-
-   Install Catalyst to your desired path using:
-
-   ```bash
-   npx create-catalyst-app@latest
-   ```
-
-   Follow the prompts to complete the installation.
 
 3. **Run migrations**
 
@@ -32,31 +30,7 @@
    npm run migrate
    ```
 
-4. **Navigate to the project folder**
-
-   Change to your Catalyst project directory:
-
-   ```bash
-   cd [your-catalyst-project-name]
-   ```
-
-5. **Update configuration**
-
-   Review and update the configuration files in your project according to your specific requirements.
-
-6. **Build and run the project**
-
-   Build the project:
-
-   ```bash
-   npm run devBuild
-   ```
-
-   Then start the application:
-
-   ```bash
-   npm start
-   ```
+   This command will prompt you to provide the paths for your NextJS and Catalyst projects.
 
 ## Additional Notes
 
